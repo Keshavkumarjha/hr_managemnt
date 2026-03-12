@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block css %}
+  {{ block.super }}
+  <script src="https://cdn.tailwindcss.com"></script>
+{% endblock css %}
+
+{% block content %}
+  <section class="mx-auto max-w-7xl px-6 py-10">
+    <h1 class="text-3xl font-bold text-slate-900">{{ page_title }}</h1>
+    <p class="mt-2 text-slate-600">This module page is ready for CRUD screens and API-driven tables.</p>
+  </section>
+{% endblock content %}
