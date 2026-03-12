@@ -51,16 +51,7 @@ default_db_engine = (
     if env("DJANGO_SETTINGS_MODULE", default="").endswith("production")
     else "sqlite"
 )
-raw_db_engine = env("DJANGO_DATABASE_ENGINE", default=default_db_engine).strip().lower()
-db_engine_aliases = {
-    "postgresql": "postgres",
-    "postgress": "postgres",
-}
-DJANGO_DATABASE_ENGINE = db_engine_aliases.get(raw_db_engine, raw_db_engine)
-
-database_url = env("DATABASE_URL", default="")
-if DJANGO_DATABASE_ENGINE not in {"postgres", "sqlite"}:
-    DJANGO_DATABASE_ENGINE = "postgres" if database_url.startswith("postgres") else default_db_engine
+DJANGO_DATABASE_ENGINE = env("DJANGO_DATABASE_ENGINE", default=default_db_engine)
 
 if DJANGO_DATABASE_ENGINE == "postgres":
     default_postgres_url = (
