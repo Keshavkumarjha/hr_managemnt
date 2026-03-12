@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}HRMS | API Home{% endblock title %}
+
+{% block content %}
+<section class="space-y-6">
+  <header>
+    <h1 class="text-3xl font-bold text-slate-900">HRMS API Home</h1>
+    <p class="mt-2 text-slate-600">Use the options below to explore and test all API endpoints.</p>
+  </header>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <a href="{% url 'api-docs' %}" class="hr-card p-5"><h2 class="font-semibold">Swagger UI</h2><p class="text-sm text-slate-600">Interactive endpoint testing.</p></a>
+    <a href="{% url 'api-redoc' %}" class="hr-card p-5"><h2 class="font-semibold">ReDoc</h2><p class="text-sm text-slate-600">Human-friendly documentation.</p></a>
+    <a href="{% url 'api-schema' %}" class="hr-card p-5"><h2 class="font-semibold">OpenAPI Schema</h2><p class="text-sm text-slate-600">Machine-readable JSON.</p></a>
+    <a href="{% url 'api-reference' %}" class="hr-card p-5"><h2 class="font-semibold">Reference Index</h2><p class="text-sm text-slate-600">Module-wise endpoint catalog.</p></a>
+  </div>
+
+  <div class="hr-card p-5">
+    <h2 class="mb-3 text-lg font-semibold">Quick Endpoint Links</h2>
+    <ul class="grid gap-2 text-sm text-brand-600 md:grid-cols-2">
+      <li><a href="/api/v1/employees/">/api/v1/employees/</a></li>
+      <li><a href="/api/v1/departments/">/api/v1/departments/</a></li>
+      <li><a href="/api/v1/attendance/">/api/v1/attendance/</a></li>
+      <li><a href="/api/v1/leaves/">/api/v1/leaves/</a></li>
+      <li><a href="/api/v1/payslips/">/api/v1/payslips/</a></li>
+      <li><a href="/api/v1/health/">/api/v1/health/</a></li>
+    </ul>
+  </div>
+</section>
+{% endblock content %}
