@@ -46,7 +46,36 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
+default_db_engine = (
+    "postgres"
+    if env("DJANGO_SETTINGS_MODULE", default="").endswith("production")
+    else "sqlite"
+)
+DJANGO_DATABASE_ENGINE = env("DJANGO_DATABASE_ENGINE", default=default_db_engine)
+
+if DJANGO_DATABASE_ENGINE == "postgres":
+    default_postgres_url = (
+        f"postgres://{env('POSTGRES_USER', default='postgres')}:"
+        f"{env('POSTGRES_PASSWORD', default='postgres')}@"
+        f"{env('POSTGRES_HOST', default='localhost')}:"
+        f"{env('POSTGRES_PORT', default='5432')}/"
+        f"{env('POSTGRES_DB', default='hr_managemnt')}"
+    )
+    DATABASES = {
+        "default": env.db(
+            "DATABASE_URL",
+            default=default_postgres_url,
+        ),
+    }
+else:
+    sqlite_path = env("SQLITE_PATH", default=str(BASE_DIR / "local.sqlite3"))
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": sqlite_path,
+        },
+    }
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -79,3 +79,41 @@ The following details how to deploy this application.
 ### Docker
 
 See detailed [cookiecutter-django Docker documentation](https://cookiecutter-django.readthedocs.io/en/latest/3-deployment/deployment-with-docker.html).
+
+
+## Database configuration (env-based)
+
+This project supports environment-driven database selection:
+
+- **Local development (default): SQLite**
+- **Production: PostgreSQL**
+
+### Local (SQLite)
+
+```bash
+export DJANGO_SETTINGS_MODULE=config.settings.local
+export DJANGO_DATABASE_ENGINE=sqlite
+# optional: export SQLITE_PATH=/absolute/path/to/local.sqlite3
+python manage.py migrate
+python manage.py runserver
+```
+
+### Local (optional PostgreSQL)
+
+```bash
+export DJANGO_SETTINGS_MODULE=config.settings.local
+export DJANGO_DATABASE_ENGINE=postgres
+export POSTGRES_HOST=127.0.0.1
+export POSTGRES_PORT=5432
+export POSTGRES_DB=hr_managemnt
+export POSTGRES_USER=postgres
+export POSTGRES_PASSWORD=postgres
+python manage.py migrate
+```
+
+### Production (PostgreSQL)
+
+Use `config.settings.production` with either:
+
+- `DATABASE_URL=postgres://user:pass@host:5432/dbname`, or
+- `POSTGRES_HOST/PORT/DB/USER/PASSWORD` vars (used to build a default URL).
