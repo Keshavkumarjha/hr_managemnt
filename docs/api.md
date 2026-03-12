@@ -11,8 +11,6 @@ All domain endpoints are namespaced under `/api/v1/`.
 ## OpenAPI
 - Schema: `/api/schema/`
 - Swagger UI: `/api/docs/`
-- ReDoc UI: `/api/redoc/`
-- Reference page: `/api/reference/`
 
 ## Core Endpoints
 - Departments: `/api/v1/departments/`
@@ -32,17 +30,3 @@ All domain endpoints are namespaced under `/api/v1/`.
 - Search + ordering for key list endpoints.
 - Rate limiting: user and anonymous throttles.
 - Permissions: read for authenticated users, write for HR Admin role/staff.
-
-
-## Environment-based database strategy
-- Local defaults to SQLite via `DJANGO_DATABASE_ENGINE=sqlite`.
-- Production enforces PostgreSQL via `config.settings.production`.
-- DB connection can be provided with `DATABASE_URL` or `POSTGRES_*` variables.
-
-
-## Ops Endpoints
-- Health: `/healthz/`
-- API Health: `/api/v1/health/`
-
-
-Access docs on local run: `http://127.0.0.1:8000/api/docs/`
