@@ -8,9 +8,6 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from config.views import healthz
 from drf_spectacular.views import SpectacularAPIView
-from drf_spectacular.views import SpectacularRedocView
-from drf_spectacular.views import SpectacularSwaggerView
-from hr_managemnt.core.api.views import HealthCheckAPIView
 from hr_managemnt.dashboard_views import attendance_page
 from hr_managemnt.dashboard_views import dashboard
 from hr_managemnt.dashboard_views import departments_page
@@ -18,11 +15,12 @@ from hr_managemnt.dashboard_views import employees_page
 from hr_managemnt.dashboard_views import leave_page
 from hr_managemnt.dashboard_views import payroll_page
 from hr_managemnt.dashboard_views import profile_page
+from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path("healthz/", healthz, name="healthz"),
     path(
         "about/",
@@ -55,22 +53,19 @@ urlpatterns += [
     # API base url
     path("api/", TemplateView.as_view(template_name="docs/api_home.html"), name="api-home"),
     path("api/", include("config.api_router")),
-    path("api/v1/health/", HealthCheckAPIView.as_view(), name="api-v1-health"),
     path("api/auth/jwt/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/auth/jwt/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
-        "api/docs/",
+        "",
         SpectacularSwaggerView.as_view(url_name="api-schema"),
-        name="api-docs",
+        name="home",
     ),
-    path("api/redoc/", SpectacularRedocView.as_view(url_name="api-schema"), name="api-redoc"),
     path("api/reference/", TemplateView.as_view(template_name="docs/api_reference.html"), name="api-reference"),
 ]
 
 if settings.DEBUG:
-    # This allows the error pages to be debugged during development, just visit
-    # these url in browser to see how these error pages look like.
+
     urlpatterns += [
         path(
             "400/",

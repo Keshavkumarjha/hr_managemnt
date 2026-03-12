@@ -49,7 +49,6 @@
           <nav class="hidden items-center gap-6 text-sm md:flex">
             <a class="text-slate-600 transition hover:text-brand-600" href="{% url 'home' %}">Home</a>
             <a class="text-slate-600 transition hover:text-brand-600" href="{% url 'about' %}">About</a>
-            <a class="text-slate-600 transition hover:text-brand-600" href="{% url 'api-reference' %}">API Docs</a>
             {% if request.user.is_authenticated %}
               <a class="text-slate-600 transition hover:text-brand-600" href="{% url 'dashboard' %}">Dashboard</a>
               <a class="text-slate-600 transition hover:text-brand-600" href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
