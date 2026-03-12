@@ -46,7 +46,45 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
+default_db_engine = (
+    "postgres"
+    if env("DJANGO_SETTINGS_MODULE", default="").endswith("production")
+    else "sqlite"
+)
+raw_db_engine = env("DJANGO_DATABASE_ENGINE", default=default_db_engine).strip().lower()
+db_engine_aliases = {
+    "postgresql": "postgres",
+    "postgress": "postgres",
+}
+DJANGO_DATABASE_ENGINE = db_engine_aliases.get(raw_db_engine, raw_db_engine)
+
+database_url = env("DATABASE_URL", default="")
+if DJANGO_DATABASE_ENGINE not in {"postgres", "sqlite"}:
+    DJANGO_DATABASE_ENGINE = "postgres" if database_url.startswith("postgres") else default_db_engine
+
+if DJANGO_DATABASE_ENGINE == "postgres":
+    default_postgres_url = (
+        f"postgres://{env('POSTGRES_USER', default='postgres')}:"
+        f"{env('POSTGRES_PASSWORD', default='postgres')}@"
+        f"{env('POSTGRES_HOST', default='localhost')}:"
+        f"{env('POSTGRES_PORT', default='5432')}/"
+        f"{env('POSTGRES_DB', default='hr_managemnt')}"
+    )
+    DATABASES = {
+        "default": env.db(
+            "DATABASE_URL",
+            default=default_postgres_url,
+        ),
+    }
+else:
+    sqlite_path = env("SQLITE_PATH", default=str(BASE_DIR / "local.sqlite3"))
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": sqlite_path,
+        },
+    }
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -76,18 +114,27 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "allauth",
     "allauth.account",
-    "allauth.mfa",
     "allauth.socialaccount",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "django_filters",
+    "rest_framework_simplejwt",
 ]
 
 LOCAL_APPS = [
     "hr_managemnt.users",
-    # Your stuff: custom apps go here
+    "hr_managemnt.core",
+    "hr_managemnt.organization",
+    "hr_managemnt.employees",
+    "hr_managemnt.attendance",
+    "hr_managemnt.leave_management",
+    "hr_managemnt.payroll",
+    "hr_managemnt.recruitment",
+    "hr_managemnt.performance",
+    "hr_managemnt.audit",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -333,24 +380,42 @@ SOCIALACCOUNT_FORMS = {"signup": "hr_managemnt.users.forms.UserSocialSignupForm"
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 25,
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.UserRateThrottle",
+        "rest_framework.throttling.AnonRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {"user": "120/min", "anon": "30/min"},
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
 
-# By Default swagger ui is available only to admin user(s). You can change permission classes to change that
+API_DOCS_PUBLIC = env.bool("DJANGO_API_DOCS_PUBLIC", default=True)
+API_DOCS_PERMISSIONS = ["rest_framework.permissions.AllowAny"] if API_DOCS_PUBLIC else ["rest_framework.permissions.IsAdminUser"]
+
+# API schema/docs configuration
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
 SPECTACULAR_SETTINGS = {
     "TITLE": "hr managemnt API",
     "DESCRIPTION": "Documentation of API endpoints of hr managemnt",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    "SERVE_PERMISSIONS": API_DOCS_PERMISSIONS,
     "SCHEMA_PATH_PREFIX": "/api/",
+    "SWAGGER_UI_SETTINGS": {"deepLinking": True, "persistAuthorization": True},
+    "TAGS": [
+        {"name": "employees", "description": "Employee lifecycle and profile APIs"},
+        {"name": "organization", "description": "Departments and roles APIs"},
+        {"name": "attendance", "description": "Attendance check-in and history APIs"},
+        {"name": "leave", "description": "Leave workflow APIs"},
+        {"name": "payroll", "description": "Payroll and payslip APIs"},
+    ],
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
