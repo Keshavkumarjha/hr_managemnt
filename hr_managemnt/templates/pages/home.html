@@ -1,39 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}
-  HRMS | Modern Workforce Platform
-{% endblock title %}
+{% block css %}
+  {{ block.super }}
+  <script src="https://cdn.tailwindcss.com"></script>
+{% endblock css %}
 
 {% block content %}
-  <section class="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-cyan-500 p-8 text-white md:p-14">
-    <div class="grid gap-10 md:grid-cols-2 md:items-center">
-      <div>
-        <p class="inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider">Production Ready HRMS</p>
-        <h1 class="mt-5 text-4xl font-bold leading-tight md:text-6xl">Manage HR operations with speed and clarity.</h1>
-        <p class="mt-5 max-w-xl text-base text-indigo-100 md:text-lg">One modern platform for employee lifecycle, attendance, leave approvals, payroll summaries, and analytics dashboards.</p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          {% if request.user.is_authenticated %}
-            <a href="{% url 'dashboard' %}" class="rounded-xl bg-white px-6 py-3 font-semibold text-brand-700">Go to Dashboard</a>
-          {% else %}
-            <a href="{% url 'account_login' %}" class="rounded-xl bg-white px-6 py-3 font-semibold text-brand-700">Login</a>
-            <a href="{% url 'account_signup' %}" class="rounded-xl border border-white px-6 py-3 font-semibold text-white">Register</a>
-          {% endif %}
-        </div>
-      </div>
-      <div class="rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div class="rounded-xl bg-white/20 p-4"><p class="text-sm">Employee Management</p><p class="mt-2 text-xl font-semibold">Profiles, docs, roles</p></div>
-          <div class="rounded-xl bg-white/20 p-4"><p class="text-sm">Attendance</p><p class="mt-2 text-xl font-semibold">Check-in/out + history</p></div>
-          <div class="rounded-xl bg-white/20 p-4"><p class="text-sm">Leave Workflow</p><p class="mt-2 text-xl font-semibold">Approval automation</p></div>
-          <div class="rounded-xl bg-white/20 p-4"><p class="text-sm">Payroll Insights</p><p class="mt-2 text-xl font-semibold">Summaries & trends</p></div>
-        </div>
-      </div>
+  <section class="mx-auto max-w-7xl px-4 py-10">
+    <div class="mb-8 flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-slate-900">HRMS Dashboard</h1>
+      <span class="rounded-full bg-emerald-100 px-4 py-1 text-sm font-medium text-emerald-700">Production Ready</span>
     </div>
-  </section>
-
-  <section class="mt-8 grid gap-4 md:grid-cols-3">
-    <article class="hr-card p-6"><h3 class="text-lg font-semibold">Department Management</h3><p class="mt-2 text-sm text-slate-600">Create and structure departments with role mapping.</p></article>
-    <article class="hr-card p-6"><h3 class="text-lg font-semibold">Recruitment Pipeline</h3><p class="mt-2 text-sm text-slate-600">Track openings, candidates, and applications in one flow.</p></article>
-    <article class="hr-card p-6"><h3 class="text-lg font-semibold">Performance Reviews</h3><p class="mt-2 text-sm text-slate-600">Review cycles and ratings for employee growth.</p></article>
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Employees</p><p class="text-2xl font-semibold">1,248</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Attendance Today</p><p class="text-2xl font-semibold">93%</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Open Roles</p><p class="text-2xl font-semibold">36</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Leave Requests</p><p class="text-2xl font-semibold">27</p></div>
+    </div>
   </section>
 {% endblock content %}
