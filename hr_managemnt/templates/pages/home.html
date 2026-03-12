@@ -6,23 +6,16 @@
 {% endblock css %}
 
 {% block content %}
-  <section class="bg-gradient-to-br from-indigo-700 via-indigo-600 to-cyan-500 text-white">
-    <div class="mx-auto max-w-7xl px-6 py-20">
-      <h1 class="text-4xl font-bold md:text-6xl">Modern HRMS for Scaling Teams</h1>
-      <p class="mt-6 max-w-2xl text-lg text-indigo-100">Manage employees, attendance, leaves, payroll, and performance in one production-ready platform.</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="{% url 'account_login' %}" class="rounded-lg bg-white px-6 py-3 font-semibold text-indigo-700 shadow">Login</a>
-        <a href="{% url 'account_signup' %}" class="rounded-lg border border-white px-6 py-3 font-semibold text-white">Register</a>
-        {% if request.user.is_authenticated %}
-          <a href="{% url 'dashboard' %}" class="rounded-lg bg-emerald-400 px-6 py-3 font-semibold text-slate-900">Open Dashboard</a>
-        {% endif %}
-      </div>
+  <section class="mx-auto max-w-7xl px-4 py-10">
+    <div class="mb-8 flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-slate-900">HRMS Dashboard</h1>
+      <span class="rounded-full bg-emerald-100 px-4 py-1 text-sm font-medium text-emerald-700">Production Ready</span>
     </div>
-  </section>
-
-  <section class="mx-auto grid max-w-7xl gap-4 px-6 py-12 md:grid-cols-3">
-    <article class="rounded-xl bg-white p-6 shadow"><h3 class="text-lg font-semibold">Employee Lifecycle</h3><p class="mt-2 text-slate-600">Onboarding, profile docs, and role assignment.</p></article>
-    <article class="rounded-xl bg-white p-6 shadow"><h3 class="text-lg font-semibold">Attendance & Leave</h3><p class="mt-2 text-slate-600">Accurate daily tracking with manager approvals.</p></article>
-    <article class="rounded-xl bg-white p-6 shadow"><h3 class="text-lg font-semibold">Payroll & Analytics</h3><p class="mt-2 text-slate-600">Summaries and insights for HR operations.</p></article>
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Employees</p><p class="text-2xl font-semibold">1,248</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Attendance Today</p><p class="text-2xl font-semibold">93%</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Open Roles</p><p class="text-2xl font-semibold">36</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Leave Requests</p><p class="text-2xl font-semibold">27</p></div>
+    </div>
   </section>
 {% endblock content %}
