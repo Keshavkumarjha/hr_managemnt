@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+  HRMS | {{ page_title }}
+{% endblock title %}
+
+{% block content %}
+  <section class="space-y-6">
+    <header class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900">{{ page_title }}</h1>
+        <p class="mt-1 text-sm text-slate-500">Manage records with filters, quick actions, and responsive tables.</p>
+      </div>
+      <button class="rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white">+ New Record</button>
+    </header>
+
+    <div class="hr-card p-4">
+      <div class="grid gap-3 md:grid-cols-4">
+        <input type="text" placeholder="Search..." class="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <select class="rounded-lg border border-slate-300 px-3 py-2 text-sm"><option>Status</option><option>Active</option><option>Pending</option></select>
+        <select class="rounded-lg border border-slate-300 px-3 py-2 text-sm"><option>Department</option><option>Engineering</option><option>HR</option></select>
+        <button class="rounded-lg border border-slate-300 px-3 py-2 text-sm">Apply Filters</button>
+      </div>
+    </div>
+
+    <div class="hr-card overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-slate-200 text-sm">
+          <thead class="bg-slate-50">
+            <tr>
+              <th class="px-4 py-3 text-left font-semibold text-slate-600">Name</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-600">Department</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-600">Status</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-600">Updated</th>
+              <th class="px-4 py-3 text-right font-semibold text-slate-600">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 bg-white">
+            <tr>
+              <td class="px-4 py-3">Sample User</td>
+              <td class="px-4 py-3">Engineering</td>
+              <td class="px-4 py-3"><span class="hr-badge hr-badge--success">Active</span></td>
+              <td class="px-4 py-3">2h ago</td>
+              <td class="px-4 py-3 text-right"><button class="text-brand-600">Edit</button></td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3">Sample User 2</td>
+              <td class="px-4 py-3">HR</td>
+              <td class="px-4 py-3"><span class="hr-badge hr-badge--warning">Pending</span></td>
+              <td class="px-4 py-3">5h ago</td>
+              <td class="px-4 py-3 text-right"><button class="text-brand-600">Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
