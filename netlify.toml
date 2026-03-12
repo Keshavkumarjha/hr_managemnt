@@ -1,0 +1,13 @@
+[build]
+  # This repository is a Django backend-first project (not a Node/Vite static app).
+  # Keep Netlify builds as a no-op to avoid npm-related failures.
+  command = "echo 'No frontend build required for this repository'"
+  publish = "."
+
+[build.environment]
+  PYTHON_VERSION = "3.12"
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
