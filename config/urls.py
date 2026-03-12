@@ -58,6 +58,8 @@ urlpatterns += [
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
     ),
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="api-schema"), name="api-redoc"),
+    path("api/reference/", TemplateView.as_view(template_name="docs/api_reference.html"), name="api-reference"),
 ]
 
 if settings.DEBUG:

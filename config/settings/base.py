@@ -389,14 +389,25 @@ REST_FRAMEWORK = {
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
 
-# By Default swagger ui is available only to admin user(s). You can change permission classes to change that
+API_DOCS_PUBLIC = env.bool("DJANGO_API_DOCS_PUBLIC", default=True)
+API_DOCS_PERMISSIONS = ["rest_framework.permissions.AllowAny"] if API_DOCS_PUBLIC else ["rest_framework.permissions.IsAdminUser"]
+
+# API schema/docs configuration
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
 SPECTACULAR_SETTINGS = {
     "TITLE": "hr managemnt API",
     "DESCRIPTION": "Documentation of API endpoints of hr managemnt",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    "SERVE_PERMISSIONS": API_DOCS_PERMISSIONS,
     "SCHEMA_PATH_PREFIX": "/api/",
+    "SWAGGER_UI_SETTINGS": {"deepLinking": True, "persistAuthorization": True},
+    "TAGS": [
+        {"name": "employees", "description": "Employee lifecycle and profile APIs"},
+        {"name": "organization", "description": "Departments and roles APIs"},
+        {"name": "attendance", "description": "Attendance check-in and history APIs"},
+        {"name": "leave", "description": "Leave workflow APIs"},
+        {"name": "payroll", "description": "Payroll and payslip APIs"},
+    ],
 }
 # Your stuff...
 # ------------------------------------------------------------------------------

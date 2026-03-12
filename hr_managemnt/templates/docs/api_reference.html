@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}HRMS | API Reference{% endblock title %}
+
+{% block content %}
+<section class="space-y-6">
+  <header>
+    <h1 class="text-3xl font-bold text-slate-900">HRMS API Reference</h1>
+    <p class="mt-2 text-slate-600">Central documentation page for all API modules.</p>
+  </header>
+
+  <div class="grid gap-4 md:grid-cols-3">
+    <a class="hr-card p-4" href="{% url 'api-schema' %}"><h2 class="font-semibold">OpenAPI Schema</h2><p class="text-sm text-slate-600">Raw JSON schema.</p></a>
+    <a class="hr-card p-4" href="{% url 'api-docs' %}"><h2 class="font-semibold">Swagger UI</h2><p class="text-sm text-slate-600">Interactive testing.</p></a>
+    <a class="hr-card p-4" href="{% url 'api-redoc' %}"><h2 class="font-semibold">ReDoc</h2><p class="text-sm text-slate-600">Readable endpoint docs.</p></a>
+  </div>
+
+  <div class="hr-card overflow-hidden">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-slate-50">
+        <tr><th class="px-4 py-3 text-left">Module</th><th class="px-4 py-3 text-left">Base Endpoint</th><th class="px-4 py-3 text-left">Purpose</th></tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <tr><td class="px-4 py-3">Organization</td><td class="px-4 py-3">/api/v1/departments/, /api/v1/roles/</td><td class="px-4 py-3">Departments and job roles</td></tr>
+        <tr><td class="px-4 py-3">Employees</td><td class="px-4 py-3">/api/v1/employees/, /api/v1/employee-documents/</td><td class="px-4 py-3">Profiles and documents</td></tr>
+        <tr><td class="px-4 py-3">Attendance</td><td class="px-4 py-3">/api/v1/attendance/</td><td class="px-4 py-3">Check-in and records</td></tr>
+        <tr><td class="px-4 py-3">Leave</td><td class="px-4 py-3">/api/v1/leaves/</td><td class="px-4 py-3">Requests + approve action</td></tr>
+        <tr><td class="px-4 py-3">Payroll</td><td class="px-4 py-3">/api/v1/payslips/</td><td class="px-4 py-3">Salary and payslip history</td></tr>
+        <tr><td class="px-4 py-3">Recruitment</td><td class="px-4 py-3">/api/v1/job-openings/, /api/v1/candidates/, /api/v1/applications/</td><td class="px-4 py-3">Hiring pipeline</td></tr>
+        <tr><td class="px-4 py-3">Performance</td><td class="px-4 py-3">/api/v1/reviews/</td><td class="px-4 py-3">Performance reviews</td></tr>
+        <tr><td class="px-4 py-3">Audit</td><td class="px-4 py-3">/api/v1/activity-logs/, /api/v1/notifications/</td><td class="px-4 py-3">Audit trail and notifications</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock content %}
