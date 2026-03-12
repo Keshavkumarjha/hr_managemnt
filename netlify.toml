@@ -1,18 +1,13 @@
-# Netlify is not a deployment target for this Django backend repository.
-# Keep build as explicit no-op so Netlify does NOT try npm/vite commands.
-
 [build]
-  command = "echo 'Netlify build disabled for backend-only repo'"
+  # This repository is a Django backend-first project (not a Node/Vite static app).
+  # Keep Netlify builds as a no-op to avoid npm-related failures.
+  command = "echo 'No frontend build required for this repository'"
   publish = "."
 
 [build.environment]
   PYTHON_VERSION = "3.12"
 
-[context.production]
-  command = "echo 'Netlify production build disabled'"
-
-[context.deploy-preview]
-  command = "echo 'Netlify preview build disabled'"
-
-[context.branch-deploy]
-  command = "echo 'Netlify branch build disabled'"
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200

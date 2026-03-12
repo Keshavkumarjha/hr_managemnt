@@ -44,10 +44,7 @@ python manage.py runserver
 ## 5) Useful URLs
 - Landing page: `http://127.0.0.1:8000/`
 - Dashboard: `http://127.0.0.1:8000/dashboard/`
-- API home: `http://127.0.0.1:8000/api/`
 - API docs: `http://127.0.0.1:8000/api/docs/`
-- API reference: `http://127.0.0.1:8000/api/reference/`
-- API health: `http://127.0.0.1:8000/api/v1/health/`
 - Admin: `http://127.0.0.1:8000/admin/`
 
 ## 6) JWT auth (API)
