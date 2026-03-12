@@ -79,3 +79,100 @@ The following details how to deploy this application.
 ### Docker
 
 See detailed [cookiecutter-django Docker documentation](https://cookiecutter-django.readthedocs.io/en/latest/3-deployment/deployment-with-docker.html).
+
+
+## Database configuration (env-based)
+
+This project supports environment-driven database selection:
+
+- **Local development (default): SQLite**
+- **Production: PostgreSQL**
+
+### Local (SQLite)
+
+```bash
+export DJANGO_SETTINGS_MODULE=config.settings.local
+export DJANGO_DATABASE_ENGINE=sqlite
+# optional: export SQLITE_PATH=/absolute/path/to/local.sqlite3
+python manage.py migrate
+python manage.py runserver
+```
+
+### Local (optional PostgreSQL)
+
+```bash
+export DJANGO_SETTINGS_MODULE=config.settings.local
+export DJANGO_DATABASE_ENGINE=postgres
+export POSTGRES_HOST=127.0.0.1
+export POSTGRES_PORT=5432
+export POSTGRES_DB=hr_managemnt
+export POSTGRES_USER=postgres
+export POSTGRES_PASSWORD=postgres
+python manage.py migrate
+```
+
+### Production (PostgreSQL)
+
+Use `config.settings.production` with either:
+
+- `DATABASE_URL=postgres://user:pass@host:5432/dbname`, or
+- `POSTGRES_HOST/PORT/DB/USER/PASSWORD` vars (used to build a default URL).
+
+
+## Railway deployment
+
+1. Create a new Railway project and add a PostgreSQL plugin.
+2. Set environment variables:
+   - `DJANGO_SETTINGS_MODULE=config.settings.production`
+   - `DJANGO_SECRET_KEY=<strong-secret>`
+   - `DJANGO_ALLOWED_HOSTS=<your-railway-domain>`
+   - `DJANGO_DATABASE_ENGINE=postgres`
+   - `DATABASE_URL=<from Railway Postgres>`
+   - `REDIS_URL=<optional>`
+3. Railway will use `Procfile` and `railway.json` for start commands.
+4. Verify static assets via WhiteNoise (collectstatic runs in Procfile).
+
+See `RUN_LOCAL.md` for complete local setup.
+
+
+## API documentation pages
+- API home: `/api/`
+- Swagger: `/api/docs/`
+- ReDoc: `/api/redoc/`
+- Reference index: `/api/reference/`
+- OpenAPI schema JSON: `/api/schema/`
+
+- Health check: `/healthz/`
+
+
+### Railway free tier checklist
+
+1. Add PostgreSQL plugin in Railway project.
+2. Set minimum required env vars:
+   - `DJANGO_SETTINGS_MODULE=config.settings.production`
+   - `DJANGO_SECRET_KEY=<strong-secret>`
+   - `DJANGO_ALLOWED_HOSTS=<your-domain>.up.railway.app`
+   - `DJANGO_CSRF_TRUSTED_ORIGINS=https://<your-domain>.up.railway.app`
+   - `DJANGO_DATABASE_ENGINE=postgres`
+   - `DATABASE_URL=<Railway PostgreSQL URL>`
+   - `RAILWAY_PUBLIC_DOMAIN=<your-domain>.up.railway.app`
+3. Keep optional services disabled for free tier unless configured:
+   - `DJANGO_USE_REDIS_CACHE=False`
+   - `DJANGO_USE_S3_STORAGE=False`
+4. Deploy. Railway runs `release` for migrations + collectstatic and starts Gunicorn web process.
+5. Verify:
+   - Home: `/`
+   - Health: `/healthz/`
+   - API home: `/api/`
+   - Swagger docs: `/api/docs/`
+
+### Manual steps required after first deploy
+- Create admin user from Railway shell:
+  - `python manage.py createsuperuser`
+- If you later enable S3 media storage, set all `DJANGO_AWS_*` vars before redeploy.
+
+
+### If build fails on Railway at pip install step
+- This repo uses `psycopg[binary]` to avoid native compilation issues on free-tier builders.
+- If you had previous failed builds, trigger a fresh deploy after clearing build cache in Railway.
+- Keep `DJANGO_USE_S3_STORAGE=False` unless S3 variables are configured.
