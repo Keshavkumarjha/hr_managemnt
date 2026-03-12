@@ -1,6 +1,4 @@
-from django.conf import settings
 from rest_framework.routers import DefaultRouter
-from rest_framework.routers import SimpleRouter
 
 from hr_managemnt.attendance.api.views import AttendanceViewSet
 from hr_managemnt.audit.api.views import ActivityLogViewSet
@@ -17,7 +15,7 @@ from hr_managemnt.recruitment.api.views import CandidateViewSet
 from hr_managemnt.recruitment.api.views import JobOpeningViewSet
 from hr_managemnt.users.api.views import UserViewSet
 
-router = DefaultRouter() if settings.DEBUG else SimpleRouter()
+router = DefaultRouter()
 
 router.register("users", UserViewSet)
 router.register("v1/departments", DepartmentViewSet)

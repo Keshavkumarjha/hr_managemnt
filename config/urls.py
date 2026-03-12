@@ -51,6 +51,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
+    path("api/", TemplateView.as_view(template_name="docs/api_home.html"), name="api-home"),
     path("api/", include("config.api_router")),
     path("api/auth/jwt/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/auth/jwt/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
