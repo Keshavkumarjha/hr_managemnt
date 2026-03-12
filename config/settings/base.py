@@ -83,11 +83,21 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "django_filters",
+    "rest_framework_simplejwt",
 ]
 
 LOCAL_APPS = [
     "hr_managemnt.users",
-    # Your stuff: custom apps go here
+    "hr_managemnt.core",
+    "hr_managemnt.organization",
+    "hr_managemnt.employees",
+    "hr_managemnt.attendance",
+    "hr_managemnt.leave_management",
+    "hr_managemnt.payroll",
+    "hr_managemnt.recruitment",
+    "hr_managemnt.performance",
+    "hr_managemnt.audit",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -333,11 +343,18 @@ SOCIALACCOUNT_FORMS = {"signup": "hr_managemnt.users.forms.UserSocialSignupForm"
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 25,
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.UserRateThrottle",
+        "rest_framework.throttling.AnonRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {"user": "120/min", "anon": "30/min"},
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
