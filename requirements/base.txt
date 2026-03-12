@@ -27,5 +27,3 @@ drf-spectacular==0.28.0  # https://github.com/tfranzel/drf-spectacular
 
 djangorestframework-simplejwt==5.3.1  # JWT auth
 django-filter==24.3  # API filtering
-
-fido2<2  # compatibility pin for django-allauth mfa
