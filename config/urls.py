@@ -14,7 +14,6 @@ from hr_managemnt.dashboard_views import employees_page
 from hr_managemnt.dashboard_views import leave_page
 from hr_managemnt.dashboard_views import payroll_page
 from hr_managemnt.dashboard_views import profile_page
-from drf_spectacular.views import SpectacularRedocView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
