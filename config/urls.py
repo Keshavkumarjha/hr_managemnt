@@ -8,9 +8,6 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from config.views import healthz
 from drf_spectacular.views import SpectacularAPIView
-from drf_spectacular.views import SpectacularRedocView
-from drf_spectacular.views import SpectacularSwaggerView
-from hr_managemnt.core.api.views import HealthCheckAPIView
 from hr_managemnt.dashboard_views import attendance_page
 from hr_managemnt.dashboard_views import dashboard
 from hr_managemnt.dashboard_views import departments_page
@@ -18,6 +15,7 @@ from hr_managemnt.dashboard_views import employees_page
 from hr_managemnt.dashboard_views import leave_page
 from hr_managemnt.dashboard_views import payroll_page
 from hr_managemnt.dashboard_views import profile_page
+from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -55,7 +53,6 @@ urlpatterns += [
     # API base url
     path("api/", TemplateView.as_view(template_name="docs/api_home.html"), name="api-home"),
     path("api/", include("config.api_router")),
-    path("api/v1/health/", HealthCheckAPIView.as_view(), name="api-v1-health"),
     path("api/auth/jwt/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/auth/jwt/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
