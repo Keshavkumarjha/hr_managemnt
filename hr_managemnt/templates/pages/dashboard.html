@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block css %}
+  {{ block.super }}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock css %}
+
+{% block content %}
+  <div class="mx-auto max-w-7xl px-4 py-6" x-data="{open:true}">
+    <div class="mb-5 flex items-center justify-between">
+      <h1 class="text-3xl font-bold">HR Dashboard</h1>
+      <button class="rounded bg-indigo-600 px-3 py-2 text-white md:hidden" @click="open = !open">Menu</button>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-4">
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Employees</p><p class="text-2xl font-semibold">{{ employees_count }}</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Attendance Records</p><p class="text-2xl font-semibold">{{ today_attendance }}</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Pending Leaves</p><p class="text-2xl font-semibold">{{ pending_leaves }}</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Avg Basic Payroll</p><p class="text-2xl font-semibold">{{ payroll_avg }}</p></div>
+    </div>
+
+    <div class="mt-6 rounded-xl bg-white p-4 shadow">
+      <canvas id="hrChart" height="100"></canvas>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 z-40 flex justify-around border-t bg-white py-2 md:hidden">
+      <a href="{% url 'dashboard' %}" class="text-sm font-medium text-indigo-600">Dashboard</a>
+      <a href="{% url 'employees-page' %}" class="text-sm">Employees</a>
+      <a href="{% url 'attendance-page' %}" class="text-sm">Attendance</a>
+      <a href="{% url 'leave-page' %}" class="text-sm">Leaves</a>
+      <a href="{% url 'payroll-page' %}" class="text-sm">Payroll</a>
+    </nav>
+  </div>
+{% endblock content %}
+
+{% block inline_javascript %}
+  {{ block.super }}
+  <script>
+    const chartContext = document.getElementById('hrChart');
+    if (chartContext) {
+      new Chart(chartContext, {
+        type: 'bar',
+        data: {
+          labels: ['Employees', 'Attendance', 'Pending Leaves'],
+          datasets: [{
+            label: 'HR Overview',
+            data: [{{ employees_count }}, {{ today_attendance }}, {{ pending_leaves }}],
+            backgroundColor: ['#4f46e5', '#06b6d4', '#f59e0b']
+          }]
+        }
+      });
+    }
+  </script>
+{% endblock inline_javascript %}
