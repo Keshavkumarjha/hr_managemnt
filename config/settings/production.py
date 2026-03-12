@@ -12,9 +12,7 @@ from .base import env
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-RAILWAY_PUBLIC_DOMAIN = env("RAILWAY_PUBLIC_DOMAIN", default="")
-DEFAULT_ALLOWED_HOSTS = [RAILWAY_PUBLIC_DOMAIN] if RAILWAY_PUBLIC_DOMAIN else ["*"]
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=DEFAULT_ALLOWED_HOSTS)
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["example.com"])
 CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=[])
 
 # DATABASES
@@ -204,6 +202,7 @@ LOGGING = {
 # django-rest-framework
 # -------------------------------------------------------------------------------
 # Tools that generate code samples can use SERVERS to point to the correct domain
+RAILWAY_PUBLIC_DOMAIN = env("RAILWAY_PUBLIC_DOMAIN", default="")
 SPECTACULAR_SETTINGS["SERVERS"] = [
     {"url": f"https://{RAILWAY_PUBLIC_DOMAIN}", "description": "Railway production"}
 ] if RAILWAY_PUBLIC_DOMAIN else [{"url": "https://example.com", "description": "Production server"}]
