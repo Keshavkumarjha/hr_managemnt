@@ -6,6 +6,7 @@ from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from config.views import healthz
 from drf_spectacular.views import SpectacularAPIView
 from hr_managemnt.dashboard_views import attendance_page
 from hr_managemnt.dashboard_views import dashboard
@@ -20,6 +21,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("healthz/", healthz, name="healthz"),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
