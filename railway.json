@@ -4,8 +4,8 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "gunicorn config.wsgi --bind 0.0.0.0:${PORT:-8000} --log-file - --workers ${WEB_CONCURRENCY:-1} --threads ${GUNICORN_THREADS:-2} --timeout 120",
-    "healthcheckPath": "/healthz/",
+    "startCommand": "python manage.py migrate && gunicorn config.wsgi --log-file - --workers 3 --timeout 120",
+    "healthcheckPath": "/",
     "restartPolicyType": "ON_FAILURE"
   }
 }
