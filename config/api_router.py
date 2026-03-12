@@ -34,12 +34,5 @@ router.register("v1/reviews", PerformanceReviewViewSet)
 router.register("v1/activity-logs", ActivityLogViewSet)
 router.register("v1/notifications", NotificationViewSet)
 
-# Backward-compatible non-versioned aliases
-router.register("employees", EmployeeViewSet, basename="employees-legacy")
-router.register("departments", DepartmentViewSet, basename="departments-legacy")
-router.register("attendance", AttendanceViewSet, basename="attendance-legacy")
-router.register("leaves", LeaveRequestViewSet, basename="leaves-legacy")
-router.register("payroll", PayslipViewSet, basename="payroll-legacy")
-
 app_name = "api"
 urlpatterns = router.urls
