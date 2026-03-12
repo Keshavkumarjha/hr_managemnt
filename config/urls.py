@@ -20,7 +20,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path("healthz/", healthz, name="healthz"),
     path(
         "about/",
@@ -57,17 +57,15 @@ urlpatterns += [
     path("api/auth/jwt/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
-        "api/docs/",
+        "",
         SpectacularSwaggerView.as_view(url_name="api-schema"),
-        name="api-docs",
+        name="home",
     ),
-    path("api/redoc/", SpectacularRedocView.as_view(url_name="api-schema"), name="api-redoc"),
     path("api/reference/", TemplateView.as_view(template_name="docs/api_reference.html"), name="api-reference"),
 ]
 
 if settings.DEBUG:
-    # This allows the error pages to be debugged during development, just visit
-    # these url in browser to see how these error pages look like.
+
     urlpatterns += [
         path(
             "400/",
