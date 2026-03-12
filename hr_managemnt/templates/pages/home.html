@@ -1,3 +1,21 @@
 {% extends "base.html" %}
 
+{% block css %}
+  {{ block.super }}
+  <script src="https://cdn.tailwindcss.com"></script>
+{% endblock css %}
 
+{% block content %}
+  <section class="mx-auto max-w-7xl px-4 py-10">
+    <div class="mb-8 flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-slate-900">HRMS Dashboard</h1>
+      <span class="rounded-full bg-emerald-100 px-4 py-1 text-sm font-medium text-emerald-700">Production Ready</span>
+    </div>
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Employees</p><p class="text-2xl font-semibold">1,248</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Attendance Today</p><p class="text-2xl font-semibold">93%</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Open Roles</p><p class="text-2xl font-semibold">36</p></div>
+      <div class="rounded-xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Leave Requests</p><p class="text-2xl font-semibold">27</p></div>
+    </div>
+  </section>
+{% endblock content %}
