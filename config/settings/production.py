@@ -16,7 +16,6 @@ ALLOWED_HOSTS = [
     "healthcheck.railway.app",
     "localhost",
     "127.0.0.1",
-    "https://hrms-forntend.netlify.app/",
     *([RAILWAY_PUBLIC_DOMAIN] if RAILWAY_PUBLIC_DOMAIN else []),
     "*",
 ]
